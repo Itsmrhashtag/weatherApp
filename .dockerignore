@@ -1,0 +1,15 @@
+target/*
+!target/*.jar
+
+
+.git
+.gitignore
+
+
+*.idea/
+.vscode/
+
+*.log
+*.tmp
+logs/
+tmp/
