@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Information</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 50px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align:center;">Weather Information</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Display the coordinates -->
+            <tr>
+                <td>Location</td>
+                <td th:text="${jsonData.get('name').asText()}"></td>
+            </tr>
+            <tr>
+                <td>Coordinates</td>
+                <td th:text="${jsonData.get('coord').get('lat').asText()} + ', ' + ${jsonData.get('coord').get('lon').asText()}"></td>
+            </tr>
+
+            <!-- Display weather description -->
+            <tr>
+                <td>Weather</td>
+                <td th:text="${jsonData.get('weather').get(0).get('description').asText()}"></td>
+            </tr>
+
+            <!-- Display temperature data -->
+            <tr>
+                <td>Temperature</td>
+                <td th:text="${jsonData.get('main').get('temp').asDouble() - 273.15} + '°C'"></td>
+            </tr>
+            <tr>
+                <td>Feels Like</td>
+                <td th:text="${jsonData.get('main').get('feels_like').asDouble() - 273.15} + '°C'"></td>
+            </tr>
+            <tr>
+                <td>Min Temperature</td>
+                <td th:text="${jsonData.get('main').get('temp_min').asDouble() - 273.15} + '°C'"></td>
+            </tr>
+            <tr>
+                <td>Max Temperature</td>
+                <td th:text="${jsonData.get('main').get('temp_max').asDouble() - 273.15} + '°C'"></td>
+            </tr>
+            <tr>
+                <td>Pressure</td>
+                <td th:text="${jsonData.get('main').get('pressure').asText()} + ' hPa'"></td>
+            </tr>
+            <tr>
+                <td>Humidity</td>
+                <td th:text="${jsonData.get('main').get('humidity').asText()} + ' %'"></td>
+            </tr>
+
+            <!-- Additional information -->
+            <tr>
+    <td>Visibility</td>
+    <td th:text="${(jsonData.get('visibility').asLong() / 1000) + ' km'}"></td>
+</tr>
+
+            <tr>
+                <td>Wind Speed</td>
+                <td th:text="${jsonData.get('wind').get('speed').asText()} + ' m/s'"></td>
+            </tr>
+            <tr>
+                <td>Cloudiness</td>
+                <td th:text="${jsonData.get('clouds').get('all').asText()} + ' %'"></td>
+            </tr>
+
+            <!-- Sunrise and Sunset -->
+            <tr>
+                <td>Sunrise</td>
+                <td th:text="${#dates.format(jsonData.get('sys').get('sunrise').asLong() * 1000, 'HH:mm:ss')}"></td>
+            </tr>
+            <tr>
+                <td>Sunset</td>
+                <td th:text="${#dates.format(jsonData.get('sys').get('sunset').asLong() * 1000, 'HH:mm:ss')}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
