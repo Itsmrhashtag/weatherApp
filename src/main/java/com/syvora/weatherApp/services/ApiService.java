@@ -16,7 +16,7 @@ public class ApiService {
     @Value("${weather.city}")
     private String city;
 
-    public String getWeatherData() {
+    public String getWeatherData(String city) {
         String url = String.format("%s?q=%s&appid=%s", apiUrl, city, apiKey);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);

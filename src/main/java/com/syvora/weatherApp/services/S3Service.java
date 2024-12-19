@@ -21,67 +21,58 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class S3Service {
 
-    private final S3Client s3Client;
-    private final String region;
+	 private final S3Client s3Client;
 
-    @Value("${aws.s3.bucket.name}")
-    private String bucketName;
-    
-    public S3Service(@Value("${aws.access-key}") String accessKey,
-                     @Value("${aws.secret-key}") String secretKey,
-                     @Value("${aws.s3.region}") String region) {
-        this.s3Client = S3Client.builder()
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)))
-                .build();
-        this.region = region;
-    }
+	    @Value("${aws.s3.bucket.name}")
+	    private String bucketName;
 
-    public void createBucket(String bucketName) {
-        CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
-                .bucket(bucketName)
-                .build();
-        
-        s3Client.createBucket(bucketRequest);
-        System.out.println("Bucket created: " + bucketName);
-    }
+	    public S3Service(@Value("${aws.access-key}") String accessKey,
+	                     @Value("${aws.secret-key}") String secretKey,
+	                     @Value("${aws.s3.region}") String region) {
+	        this.s3Client = S3Client.builder()
+	                .region(Region.of(region))
+	                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)))
+	                .build();
+	    }
 
-    public void uploadToS3(String key, String content) {
-        PutObjectRequest request = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .build();
+	    public void createBucket(String bucketName) {
+	        CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
+	                .bucket(bucketName)
+	                .build();
 
-        s3Client.putObject(request, software.amazon.awssdk.core.sync.RequestBody.fromString(content, StandardCharsets.UTF_8));
-        System.out.println("Data uploaded to S3: " + key);
-    }
-    
-    public boolean doesFileExist(String key) {
-        try {
-            // Check the metadata of the object (headObject does not download the file, just gets metadata)
-            s3Client.headObject(builder -> builder.bucket(bucketName).key(key));
-            return true; // File exists if no exception is thrown
-        } catch (Exception e) {
-            // If an exception is thrown, it means the file does not exist
-            return false;
-        }
-    }
+	        s3Client.createBucket(bucketRequest);
+	    }
 
-    
-    
-    public JsonNode fetchJsonFromS3(String key) {
-        try {
-        	System.out.println(bucketName+"=======================================");
-            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(this.bucketName)
-                    .key(key)
-                    .build();
+	    public void uploadToS3(String key, String content) {
+	        PutObjectRequest request = PutObjectRequest.builder()
+	                .bucket(bucketName)
+	                .key(key)
+	                .build();
 
-            InputStream inputStream = s3Client.getObject(getObjectRequest);
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readTree(inputStream); 
-        } catch (Exception e) {
-            throw new RuntimeException("Error fetching or parsing JSON data", e);
-        }
-    }
-}
+	        s3Client.putObject(request, software.amazon.awssdk.core.sync.RequestBody.fromString(content, StandardCharsets.UTF_8));
+	    }
+
+	    public boolean doesFileExist(String key) {
+	        try {
+	            s3Client.headObject(builder -> builder.bucket(bucketName).key(key));
+	            return true;
+	        } catch (Exception e) {
+	            return false;
+	        }
+	    }
+
+	    public JsonNode fetchJsonFromS3(String key) {
+	        try {
+	            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+	                    .bucket(bucketName)
+	                    .key(key)
+	                    .build();
+
+	            InputStream inputStream = s3Client.getObject(getObjectRequest);
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            return objectMapper.readTree(inputStream);
+	        } catch (Exception e) {
+	            throw new RuntimeException("Error fetching or parsing JSON data", e);
+	        }
+	    }
+	}

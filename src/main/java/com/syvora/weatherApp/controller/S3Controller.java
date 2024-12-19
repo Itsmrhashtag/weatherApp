@@ -24,18 +24,22 @@ public class S3Controller {
     @GetMapping("/create-bucket")
     public String createBucket() {
         s3Service.createBucket(bucketName);
-
         return "Bucket created: " + bucketName;
     }
+    
 
     @GetMapping("/save-weather-data")
-    public String saveWeatherData() {
-      String weatherData = apiService.getWeatherData();
+    public String saveWeatherData(@RequestParam String city) {
+        String weatherData = apiService.getWeatherData(city);
 
-      String fileName = "weather-data.json";
+        String fileName = "weather-data.json";
 
-      s3Service.uploadToS3(fileName, weatherData);
-       return "Weather data saved to S3 with file name: " + fileName;
-     }
+        if (s3Service.doesFileExist(fileName)) {
+            s3Service.uploadToS3(fileName, weatherData);
+            return "Existing file updated in S3 with file name: " + fileName;
+        } else {
+            s3Service.uploadToS3(fileName, weatherData);
+            return "New weather data saved to S3 with file name: " + fileName;
+        }
+    }
 }
-

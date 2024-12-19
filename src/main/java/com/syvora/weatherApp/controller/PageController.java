@@ -7,24 +7,57 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.syvora.weatherApp.services.ApiService;
 import com.syvora.weatherApp.services.S3Service;
 
 @Controller
 public class PageController {
 
-	@Autowired
+    @Autowired
     private S3Service s3Service;
 
-    @GetMapping("/display-json")
-    public String displayJson(@RequestParam String key, Model model) {
-    	System.out.println("----------------------");
-        JsonNode jsonData = s3Service.fetchJsonFromS3(key);
+    @Autowired
+    private ApiService apiService;
 
-        model.addAttribute("jsonData", jsonData);
-        return "jsonDisplay";
+    @GetMapping("/display-json")
+    public String displayJson(@RequestParam String city, Model model) {
+        try {
+            String weatherData = apiService.getWeatherData(city);
+
+            String fileName = "weather-data.json";
+            
+            s3Service.uploadToS3(fileName, weatherData);
+
+            JsonNode jsonData = s3Service.fetchJsonFromS3(fileName);
+
+            model.addAttribute("jsonData", jsonData);
+
+            return "displayWeather";
+        } catch (Exception e) {
+            model.addAttribute("error", "Could not fetch or save weather data for city: " + city);
+            return "errorpage";
+        }
     }
-    @GetMapping("/page")
+
+
+    @GetMapping("/")
     public String page() {
-    	return "index";
+        return "index"; 
     }
+    @GetMapping("/weather-form")
+    public String showWeatherForm() {
+        return "weatherForm";
+    }
+    
+//    @GetMapping("/fetch-weather")
+//    public String fetchWeather(@RequestParam String city, Model model) {
+//        try {
+//            String weatherData = apiService.getWeatherData(city);
+//            model.addAttribute("weatherData", weatherData);
+//            return "displayWeather";
+//        } catch (Exception e) {
+//            model.addAttribute("error", "Could not fetch weather data for city: " + city);
+//            return "weatherForm";
+//        }
+//    }
 }
