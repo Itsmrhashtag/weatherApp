@@ -90,7 +90,7 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
 ##Github Actions
    This project includes a CI/CD pipeline using GitHub Actions to automate the Docker image build and deployment process.
 
-###Workflow Overview
+### Workflow Overview
  **Triggers:** Runs on every push and pull request to the main branch.
  **Steps:**
 1. Checkout the source code from the repository.
