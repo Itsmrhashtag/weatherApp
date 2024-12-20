@@ -59,7 +59,7 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
    Clone the repository from GitHub:
 
    ```bash
-   git clone https://github.com/your-username/weatherapp.git
+   git clone https://github.com/Itsmrhashtag/weatherApp.git
    cd weatherapp
 
 2. **Update in application.properties file**
