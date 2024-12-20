@@ -48,6 +48,12 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
    docker run -p 8080:8080 weatherapp
 
 ## How to Run the Application Not Using Docker
+
+### Prerequisites
+
+- Java installed in system
+
+### Steps to Run the Application
 1. **Clone the Repository**
 
    Clone the repository from GitHub:
