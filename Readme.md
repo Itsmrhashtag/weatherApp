@@ -3,7 +3,7 @@
 WeatherApp is a Spring Boot application that allows users to check the weather by entering a city name. The app provides a simple interface to input a city name, and it redirects to a page displaying the weather details for that city.
 
 
-## How to Run the Application
+## How to Run the Application Using Docker
 
 ### Prerequisites
 
@@ -47,11 +47,40 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
    ```bash
    docker run -p 8080:8080 weatherapp
 
+## How to Run the Application Not Using Docker
+1. **Clone the Repository**
 
+   Clone the repository from GitHub:
+
+   ```bash
+   git clone https://github.com/your-username/weatherapp.git
+   cd weatherapp
+
+2. **Update in application.properties file**
+
+   Code to use in `src/main/resources/application.properties`:
+
+   ```bash
+   spring.application.name=weatherApp
+   aws.s3.region=us-east-2
+   aws.access-key={access-key}
+   aws.secret-key={secret-key}
+   aws.s3.bucket.name=weatherapp122
+   
+   weather.api.url=https://api.openweathermap.org/data/2.5/weather
+   weather.api.key={api.key}
+
+3. **Use any IDE like Intelij or Eclipse**
+   Import project as maven project in IDE.
+   Run `WeatherAppApplication.java` file present in `src/main/java`.
+
+   
+   
 ## Features
 
 - Home page at `http://localhost:8080/`.
 - Weather form at `http://localhost:8080/weather-form` to enter a city name.
 - Displays weather information by redirecting to `http://localhost:8080/display-json?city=<cityname>`.
 - **Important Feature**
--    `http://localhost:8080/create-bucket` for creating bucket if not present in aws 
+   `http://localhost:8080/create-bucket` for creating bucket if not present in aws 
+
