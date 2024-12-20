@@ -16,7 +16,7 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
    Clone the repository from GitHub:
 
    ```bash
-   git clone https://github.com/your-username/weatherapp.git
+   git clone https://github.com/Itsmrhashtag/weatherApp.git
    cd weatherapp
 
 2. **Update in application.properties file**
@@ -51,7 +51,7 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
 
 ### Prerequisites
 
-- Java installed in system
+- Java installed in System
 
 ### Steps to Run the Application
 1. **Clone the Repository**
@@ -78,12 +78,9 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
 
 3. **Use any IDE like Intelij or Eclipse**
    Import project as maven project in IDE.
-   Run `WeatherAppApplication.java` file present in `src/main/java`.
+   Run `WeatherAppApplication.java` file present in `src\main\java\com\syvora\weatherApp`.
 
-   
-   
 ## Features
-
 - Home page at `http://localhost:8080/`.
 - Weather form at `http://localhost:8080/weather-form` to enter a city name.
 - Displays weather information by redirecting to `http://localhost:8080/display-json?city=<cityname>`.
