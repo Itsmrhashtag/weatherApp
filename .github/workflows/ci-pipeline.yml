@@ -28,7 +28,7 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag weatherapp $DOCKER_USERNAME/weatherapp:latest
+          docker tag weatherapp ${{ secrets.DOCKER_USERNAME }}/weatherapp:latest
           
       - name: Push Docker image to Docker Hub
         run: |
