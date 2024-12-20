@@ -13,8 +13,6 @@ public class ApiService {
     @Value("${weather.api.key}")
     private String apiKey;
 
-    @Value("${weather.city}")
-    private String city;
 
     public String getWeatherData(String city) {
         String url = String.format("%s?q=%s&appid=%s", apiUrl, city, apiKey);
