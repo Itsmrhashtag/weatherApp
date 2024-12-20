@@ -85,5 +85,17 @@ WeatherApp is a Spring Boot application that allows users to check the weather b
 - Weather form at `http://localhost:8080/weather-form` to enter a city name.
 - Displays weather information by redirecting to `http://localhost:8080/display-json?city=<cityname>`.
 - **Important Feature**
-   `http://localhost:8080/create-bucket` for creating bucket if not present in aws 
+   `http://localhost:8080/create-bucket` for creating bucket if not present in aws
+     By this a bucket will be created  as name mention in `src/main/resources/application.properties` file `aws.s3.bucket.name=weatherapp122`
+##Github Actions
+   This project includes a CI/CD pipeline using GitHub Actions to automate the Docker image build and deployment process.
 
+###Workflow Overview
+ **Triggers:** Runs on every push and pull request to the main branch.
+ **Steps:**
+1. Checkout the source code from the repository.
+2. Log in to Docker Hub using secrets.
+3. Build the Docker image for the WeatherApp.
+4. Tag and push the image to Docker Hub.
+5. Optionally, run the container for testing purposes.
+   This ensures that the application is always up-to-date and ready to be deployed efficiently.
